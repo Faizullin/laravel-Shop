@@ -1,0 +1,9 @@
+@extends('layouts.admin')
+@section('title')
+Main
+@endsection
+@section('content')
+	<div>
+		<h3>Main</h3>
+	</div>
+@endsection

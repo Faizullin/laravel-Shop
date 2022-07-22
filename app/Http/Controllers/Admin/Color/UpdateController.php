@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Color;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Color\UpdateRequest;
+use App\Models\Color;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class UpdateController extends Controller
+{
+    /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke(UpdateRequest $request,Color $color)
+    {
+        $data =$request->validated();
+        try{
+            DB::beginTransaction();
+            $color->update($data);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            abort(500);
+        }
+        return response()->json([
+            'action'=>'update',
+            'item'=>$data,
+        ]);
+    }
+}
